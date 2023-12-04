@@ -1,43 +1,74 @@
 public class MyStack {
-    private String[] stack;
-    private int top;
-    private static final int DEFAULT_CAPACITY = 10;
+    private Node top;
 
     public MyStack() {
-        this.stack = new String[DEFAULT_CAPACITY];
-        this.top = -1;
+        this.top = null;
     }
 
-    public boolean isEmpty() {
-        return top == -1;
+    public boolean isStackEmpty() {
+        return top == null;
     }
 
     public void push(String message) {
-        if (top == stack.length - 1) {
-            // Resize the array if it's full
-            resize();
-        }
-        stack[++top] = message;
+        Node newNode = new Node(message);
+        newNode.next = top;
+        top = newNode;
     }
 
     public String pop() {
-        if (isEmpty()) {
+        if (isStackEmpty()) {
             System.out.println("Empty stack!");
             return null;
         }
-        return stack[top--];
+        String data = top.data;
+        top = top.next;
+        return data;
     }
 
     public void display() {
-        for (int i = top; i >= 0; i--) {
-            System.out.println(stack[i]);
+        Node current = top;
+        while (current != null) {
+            System.out.println(current.data);
+            current = current.next;
         }
     }
 
-    private void resize() {
-        int newCapacity = stack.length * 2;
-        String[] newStack = new String[newCapacity];
-        System.arraycopy(stack, 0, newStack, 0, stack.length);
-        stack = newStack;
+    public String deleteMessage(String searchString) {
+        if (isStackEmpty()) {
+            System.out.println("Empty stack!");
+            return null;
+        }
+
+        Node current = top;
+        Node prev = null;
+
+        while (current != null && !current.data.contains(searchString)) {
+            prev = current;
+            current = current.next;
+        }
+
+        if (current == null) {
+            System.out.println("No matching message found!");
+            return null;
+        }
+
+        if (prev == null) {
+            // If the matching message is at the top
+            return pop();
+        } else {
+            // If the matching message is in the middle or at the bottom
+            prev.next = current.next;
+            return current.data;
+        }
+    }
+
+    private static class Node {
+        String data;
+        Node next;
+
+        public Node(String data) {
+            this.data = data;
+            this.next = null;
+        }
     }
 }

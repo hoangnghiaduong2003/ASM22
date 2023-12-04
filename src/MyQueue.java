@@ -1,28 +1,24 @@
-public class MyQueue {
-    private String[] queue;
-    private int front;
-    private int rear;
-    private static final int DEFAULT_CAPACITY = 10;
+class MyQueue {
+    private Node start;
+    private Node end;
 
     public MyQueue() {
-        this.queue = new String[DEFAULT_CAPACITY];
-        this.front = this.rear = -1;
+        this.start = null;
+        this.end = null;
     }
 
     public boolean isEmpty() {
-        return front == -1;
+        return start == null;
     }
 
     public void enqueue(String message) {
-        if (front == -1) {
-            front = rear = 0;
-        } else if ((rear + 1) % queue.length == front) {
-            // Resize the array if it's full
-            resize();
+        Node newNode = new Node(message);
+        if (isEmpty()) {
+            start = end = newNode;
         } else {
-            rear = (rear + 1) % queue.length;
+            end.next = newNode;
+            end = newNode;
         }
-        queue[rear] = message;
     }
 
     public String dequeue() {
@@ -30,26 +26,18 @@ public class MyQueue {
             System.out.println("Empty queue!");
             return null;
         }
-        String data = queue[front];
-        if (front == rear) {
-            front = rear = -1;
-        } else {
-            front = (front + 1) % queue.length;
-        }
+        String data = start.data;
+        start = start.next;
         return data;
     }
 
-    private void resize() {
-        int newCapacity = queue.length * 2;
-        String[] newQueue = new String[newCapacity];
-        int i = 0;
-        while (front != rear) {
-            newQueue[i++] = queue[front];
-            front = (front + 1) % queue.length;
+    private static class Node {
+        String data;
+        Node next;
+
+        public Node(String data) {
+            this.data = data;
+            this.next = null;
         }
-        newQueue[i] = queue[rear];
-        front = 0;
-        rear = i;
-        queue = newQueue;
     }
 }
