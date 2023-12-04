@@ -1,18 +1,23 @@
 public class MyStack {
-    private Node top;
+    private String[] stack;
+    private int top;
+    private static final int DEFAULT_CAPACITY = 10;
 
     public MyStack() {
-        this.top = null;
+        this.stack = new String[DEFAULT_CAPACITY];
+        this.top = -1;
     }
 
     public boolean isEmpty() {
-        return top == null;
+        return top == -1;
     }
 
     public void push(String message) {
-        Node newNode = new Node(message);
-        newNode.next = top;
-        top = newNode;
+        if (top == stack.length - 1) {
+            // Resize the array if it's full
+            resize();
+        }
+        stack[++top] = message;
     }
 
     public String pop() {
@@ -20,26 +25,19 @@ public class MyStack {
             System.out.println("Empty stack!");
             return null;
         }
-        String data = top.data;
-        top = top.next;
-        return data;
+        return stack[top--];
     }
 
     public void display() {
-        Node current = top;
-        while (current != null) {
-            System.out.println(current.data);
-            current = current.next;
+        for (int i = top; i >= 0; i--) {
+            System.out.println(stack[i]);
         }
     }
 
-    private static class Node {
-        String data;
-        Node next;
-
-        public Node(String data) {
-            this.data = data;
-            this.next = null;
-        }
+    private void resize() {
+        int newCapacity = stack.length * 2;
+        String[] newStack = new String[newCapacity];
+        System.arraycopy(stack, 0, newStack, 0, stack.length);
+        stack = newStack;
     }
 }
