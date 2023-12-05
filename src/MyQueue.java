@@ -1,7 +1,6 @@
 class MyQueue {
     private Node start;
     private Node end;
-
     public MyQueue() {
         this.start = null;
         this.end = null;

@@ -8,22 +8,22 @@ public class Main {
 
         while (true) {
             System.out.println("**********************************************");
-            System.out.println("Nhập lự chọn của bạn");
-            System.out.println("1. nhập tin nhắn");
-            System.out.println("2. gửi tin nhắn");
-            System.out.println("3. hiển thị tin nhắn");
-            System.out.println("4. xóa tin nhắn");
-            System.out.println("5. thoát");
+            System.out.println("Enter your selection");
+            System.out.println("1. enter message");
+            System.out.println("2. send Message");
+            System.out.println("3. display message");
+            System.out.println("4. delete message");
+            System.out.println("5. exit");
             System.out.println("*******************************************");
-            System.out.print("Lựa chọn của bạn: ");
+            System.out.print("Your choice: ");
 
             if (scanner.hasNextInt()) {
-                int luaChon = scanner.nextInt();
-                scanner.nextLine(); // Đọc ký tự Enter sau khi nhập số
+                int choice = scanner.nextInt();
+                scanner.nextLine(); // Read the Enter character after entering the number
 
-                switch (luaChon) {
+                switch (choice) {
                     case 1:
-                        System.out.println("Nhập tin nhắn bạn muốn gửi, (nhập 'ok' để kết thúc):");
+                        System.out.println("Enter the message you want to send, (enter 'ok' to finish):");
                         String message = "";
                         while (true) {
                             String line = scanner.nextLine();
@@ -39,48 +39,48 @@ public class Main {
 
                     case 2:
                         if (messageQueue.isEmpty()) {
-                            System.out.println("Chưa có thông điệp nào được gửi!\n");
+                            System.out.println("No messages have been sent!\n");
                         } else {
                             while (!messageQueue.isEmpty()) {
                                 messageStack.push(messageQueue.dequeue());
                             }
-                            System.out.println("Thông điệp đã được gửi!\n");
+                            System.out.println("Messages have been sent!\n");
                         }
                         break;
                     case 3:
-                        System.out.println("Các thông điệp đã nhận là:");
+                        System.out.println("Received messages are:");
                         messageStack.display();
                         System.out.println();
                         break;
                     case 4:
                         if (!messageStack.isStackEmpty()) {
-                            System.out.println("Danh sách các tin nhắn hiện tại:");
+                            System.out.println("Current list of messages:");
                             messageStack.display();
 
-                            System.out.print("Nhập chuỗi bạn muốn tìm kiếm trong tin nhắn: ");
+                            System.out.print("Enter the string you want to search for in the messages: ");
                             String searchString = scanner.nextLine();
                             String deletedMessage = messageStack.deleteMessage(searchString);
 
                             if (deletedMessage != null) {
-                                System.out.println("Tin nhắn đã được xóa: " + deletedMessage + "\n");
+                                System.out.println("Message deleted: " + deletedMessage + "\n");
                             } else {
-                                System.out.println("Không có tin nhắn nào phù hợp!\n");
+                                System.out.println("No matching messages found!\n");
                             }
                         } else {
-                            System.out.println("Không có tin nhắn nào ở đây!\n");
+                            System.out.println("No messages here!\n");
                         }
                         break;
                     case 5:
-                        System.out.println("Chương trình đang đóng!");
-                        System.out.println("Vui lòng đợi một chút...");
+                        System.out.println("The program is closing!");
+                        System.out.println("Please wait a moment...");
                         System.exit(0);
                         break;
                     default:
-                        System.out.println("Khóa sai, vui lòng nhập lại!\n");
+                        System.out.println("Invalid key, please try again!\n");
                         break;
                 }
             } else {
-                System.out.println("Đầu vào không hợp lệ. Vui lòng nhập một số!\n");
+                System.out.println("Invalid input. Please enter a number!\n");
                 scanner.next();
             }
         }
